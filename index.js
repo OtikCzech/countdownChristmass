@@ -8,8 +8,14 @@ function initCountdownChristmass(selector) {
         now = new Date();
         let thisYear = now.getFullYear();
         let dateOfChristmas = new Date(thisYear, 11, 24).getTime();
-        if (dateOfChristmas < now - timeInADay) {
-            dateOfChristmas = new Date(thisYear + 1, 11, 24).getTime();
+
+        if (dateOfChristmas < now) {
+            //24 and 25.12. is 0
+            if ((now - dateOfChristmas) / timeInAHour < 24 * 2) {
+                now = dateOfChristmas;
+            } else {
+                dateOfChristmas = new Date(thisYear + 1, 11, 24).getTime();
+            }
         }
 
         return dateOfChristmas;
@@ -19,24 +25,26 @@ function initCountdownChristmass(selector) {
         let dateOfChristmas = getDateOfChristmas();
 
         let daysUntilChristmas = function () {
-            return Math.abs(Math.ceil((dateOfChristmas - now) / timeInADay));
+            return Math.abs(
+                Math.floor((dateOfChristmas - now) / timeInADay)
+            );
         };
 
         let hoursUntilChristmas = function () {
             return Math.abs(
-                Math.ceil(((dateOfChristmas - now) % timeInADay) / timeInAHour)
+                Math.floor(((dateOfChristmas - now) % timeInADay) / timeInAHour)
             );
         };
 
         let minutesUntilChristmas = function () {
             return Math.abs(
-                Math.ceil(((dateOfChristmas - now) % timeInAHour) / timeInAMinutes)
+                Math.floor(((dateOfChristmas - now) % timeInAHour) / timeInAMinutes)
             );
         };
 
         let secondsUntilChristmas = function () {
             return Math.abs(
-                Math.ceil(((dateOfChristmas - now) % timeInAMinutes) / 1000)
+                Math.floor(((dateOfChristmas - now) % timeInAMinutes) / 1000)
             );
         };
 
